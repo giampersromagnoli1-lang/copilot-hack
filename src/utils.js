@@ -2,6 +2,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// Email validation regex compiled once at module load
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // PERF-1: Inefficient string concatenation in loops
 function buildLargeString(items) {
   let result = '';
@@ -11,10 +14,9 @@ function buildLargeString(items) {
   return result;
 }
 
-// PERF-2: Repeated regex compilation
+// PERF-2: Repeated regex compilation - FIXED
 function validateEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  return EMAIL_REGEX.test(email);
 }
 
 // PERF-3: Unnecessary deep cloning
